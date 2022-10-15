@@ -57,7 +57,7 @@ function generateReport(){
                     <tr>
                         <td><?php printf("%s %s", $student['fname'], $student['lname']) ?></td>
                         <td><?php printf("%d", $student['roll']) ?></td>
-                        <td><?php printf("<a href='#'>Edit</a> | <a href='#'>Delete</a>") ?></td>
+                        <td><?php printf("<a href='/CRUD_Using_file/index.php?task=edit&id=%s'>Edit</a> | <a href='/CRUD_Using_file/index.php?task=delete&id=%s'>Delete</a>", $student['id'], $student['id']) ?></td>
                     </tr>
                 <?php
             }
