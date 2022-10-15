@@ -5,7 +5,7 @@ $info = '';
 
 $task = $_GET['task'] ?? 'report';
 if($task == 'seed'){
-    seed(DB_NAME);
+    seed();
     $info = "Seeding is Complete";
 
 }
@@ -24,7 +24,7 @@ if($task == 'seed'){
 
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-8">
+            <div class="col-lg-8 text-center">
                 <h2>Project 2 -CRUD</h2>
                 <p>A simple project to perform CRUD operations using plain files and PHP</p>
                 <?php include_once('inc/template/nav.php') ?>
@@ -36,6 +36,13 @@ if($task == 'seed'){
                 ?>
             </div>
         </div>
+        <?php if($task == 'report'): ?>
+            <div class="row  justify-content-center">
+                <div class="col-lg-8">
+                    <?php generateReport(); ?>
+                </div>
+            </div>
+        <?php endif; ?>
     </div>
 
 

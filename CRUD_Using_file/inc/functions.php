@@ -2,7 +2,7 @@
 
 const DB_NAME = '/home/mamun/Desktop/php/lwh/CRUD_Using_file/data/db.txt';
 
-function seed($filename){
+function seed(){
     $data = [
         [
             'fname' => 'Kamal',
@@ -32,5 +32,32 @@ function seed($filename){
     ];
 
     $serializeData = serialize($data);
-    file_put_contents($filename, $serializeData, LOCK_EX);
+    file_put_contents(DB_NAME, $serializeData, LOCK_EX);
+}
+
+function generateReport(){
+    $serializedData = file_get_contents(DB_NAME);
+    $students = unserialize($serializedData);
+
+    ?>
+    <table class="table table-bordered table-striped ">
+        <tr>
+            <th>Name</th>
+            <th>Roll</th>
+            <th>Action</th>
+        </tr>
+        <?php
+            foreach ($students as $student){
+                ?>
+                    <tr>
+                        <td><?php printf("%s %s", $student['fname'], $student['lname']) ?></td>
+                        <td><?php printf("%d", $student['roll']) ?></td>
+                        <td><?php printf("<a href='#'>Edit</a> | <a href='#'>Delete</a>") ?></td>
+                    </tr>
+                <?php
+            }
+        ?>
+    </table>
+    <?php
+
 }
