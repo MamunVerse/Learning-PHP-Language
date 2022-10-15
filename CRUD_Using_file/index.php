@@ -4,6 +4,7 @@ require_once('inc/functions.php');
 $info = '';
 
 $task = $_GET['task'] ?? 'report';
+$error = $_GET['error'] ?? '0';
 if($task == 'seed'){
     seed();
     $info = "Seeding is Complete";
@@ -15,8 +16,13 @@ if(isset($_POST['submit'])){
     $roll =  filter_input(INPUT_POST, 'roll', FILTER_SANITIZE_STRING);
 
     if($fname!='' && $lname!='' && $roll!=''){
-        addStudent($fname, $lname, $roll);
-        header('location: /index.php?task=report');
+        $result = addStudent($fname, $lname, $roll);
+        if($result){
+            header('location: /index.php?task=report');
+        }else{
+            header('location: /index.php?task=report&error=1');
+        }
+
     }
 }
 
@@ -46,6 +52,15 @@ if(isset($_POST['submit'])){
                 ?>
             </div>
         </div>
+        <?php if($error == '1'): ?>
+            <div class="row  justify-content-center">
+                <div class="col-lg-8">
+                    <blockquote>
+                        Duplicate Roll Number
+                    </blockquote>
+                </div>
+            </div>
+        <?php endif; ?>
         <?php if($task == 'report'): ?>
             <div class="row  justify-content-center">
                 <div class="col-lg-8">
