@@ -1,3 +1,6 @@
+
+<!-- This Code Written In PHP 8.0 -->
+
 <?php
 
 require_once('inc/functions.php');
@@ -5,6 +8,14 @@ $info = '';
 
 $task = $_GET['task'] ?? 'report';
 $error = $_GET['error'] ?? '0';
+
+if($task == 'delete'){
+    $id =  filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING);
+    if($id>0){
+        deleteStudent($id);
+        header('location: /index.php?task=report');
+    }
+}
 if($task == 'seed'){
     seed();
     $info = "Seeding is Complete";
@@ -19,15 +30,27 @@ if(isset($_POST['submit'])){
     $fname = filter_input(INPUT_POST, 'fname', FILTER_SANITIZE_STRING);
     $lname = filter_input(INPUT_POST, 'lname', FILTER_SANITIZE_STRING);
     $roll =  filter_input(INPUT_POST, 'roll', FILTER_SANITIZE_STRING);
+    $id =  filter_input(INPUT_POST, 'id', FILTER_SANITIZE_STRING);
 
-    if($fname!='' && $lname!='' && $roll!=''){
-        $result = addStudent($fname, $lname, $roll);
-        if($result){
-            header('location: /index.php?task=report');
-        }else{
-            $error = 1;
+    if($id){
+        if($fname!='' && $lname!='' && $roll!=''){
+            $result = updateStudent($id, $fname, $lname, $roll);
+            if($result){
+                header('location: /index.php?task=report');
+            }else{
+                $error = 1;
+            }
+
         }
-
+    }else{
+        if($fname!='' && $lname!='' && $roll!=''){
+            $result = addStudent($fname, $lname, $roll);
+            if($result){
+                header('location: /index.php?task=report');
+            }else{
+                $error = 1;
+            }
+        }
     }
 }
 
@@ -102,7 +125,7 @@ if(isset($_POST['submit'])){
         ?>
             <div class="row  justify-content-center">
                 <div class="col-lg-8">
-                    <form action="index.php?task=add" method="POST">
+                    <form method="POST">
                         <input type="hidden" name="id" value="<?php echo $id; ?>">
                         <div class="mb-3">
                             <label class="form-label">First Name</label>
@@ -129,5 +152,6 @@ if(isset($_POST['submit'])){
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <script src="assets/js/main.js"></script>
   </body>
 </html>
