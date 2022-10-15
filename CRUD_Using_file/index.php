@@ -1,7 +1,9 @@
 
 <!-- This Code Written In PHP 8.0 -->
-
 <?php
+session_start([
+    'cookie_lifetime' => 300 // 5 Minute
+]);
 
 require_once('inc/functions.php');
 $info = '';

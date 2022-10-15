@@ -6,18 +6,32 @@ session_start([
 
 $error = false;
 
-if(isset($_POST['username']) && isset($_POST['password'])){
-    if($_POST['username'] == 'admin' && md5($_POST['password']) == 'a51e47f646375ab6bf5dd2c42d3e6181'){ // password = rabbit
-        $_SESSION['loggedin'] = true;
-    }else{
-        $_SESSION['loggedin'] = false;
+$fp = fopen("./data/users.txt", "r");
+$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+$password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+
+if($username && $password){
+    $_SESSION['loggedin'] = false;
+    $_SESSION['username'] = false;
+    while ($data = fgetcsv($fp)){
+        if($data[0] == $username && $data[1] == sha1($password)){ // password  rabbit for admin mamun for user
+            $_SESSION['loggedin'] = true;
+            $_SESSION['username'] = $username;
+            header('location:index.php');
+        }
+    }
+    if(!$_SESSION['loggedin']){
         $error = true;
     }
-}
+};
 
-if(isset($_POST['logout'])){
-    session_destroy();
+
+
+if(isset($_GET['logout'])){
     $_SESSION['loggedin'] = false;
+    $_SESSION['username'] = false;
+    session_destroy();
+    header('location:index.php');
 }
 ?>
 
