@@ -13,10 +13,12 @@ $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
 if($username && $password){
     $_SESSION['loggedin'] = false;
     $_SESSION['username'] = false;
+    $_SESSION['role'] = false;
     while ($data = fgetcsv($fp)){
         if($data[0] == $username && $data[1] == sha1($password)){ // password  rabbit for admin mamun for user
             $_SESSION['loggedin'] = true;
             $_SESSION['username'] = $username;
+            $_SESSION['role'] = $data[2];
             header('location:index.php');
         }
     }
@@ -30,6 +32,7 @@ if($username && $password){
 if(isset($_GET['logout'])){
     $_SESSION['loggedin'] = false;
     $_SESSION['username'] = false;
+    $_SESSION['role'] = false;
     session_destroy();
     header('location:index.php');
 }
