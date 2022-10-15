@@ -5,26 +5,31 @@ const DB_NAME = '/home/mamun/Desktop/php/lwh/CRUD_Using_file/data/db.txt';
 function seed(){
     $data = [
         [
+            'id' => 1,
             'fname' => 'Kamal',
             'lname' => 'Ahmed',
             'roll' => 11,
         ],
         [
+            'id' => 2,
             'fname' => 'Jamal',
             'lname' => 'Ahmed',
             'roll' => 12,
         ],
         [
+            'id' => 3,
             'fname' => 'Ripon',
             'lname' => 'Ahmed',
             'roll' => 9,
         ],
         [
+            'id' => 4,
             'fname' => 'Nikhil',
             'lname' => 'Chandra',
             'roll' => 8,
         ],
         [
+            'id' => 5,
             'fname' => 'Jhon',
             'lname' => 'Rozario',
             'roll' => 7,
