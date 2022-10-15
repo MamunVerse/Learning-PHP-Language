@@ -23,8 +23,13 @@ if(isset($_POST['submit'])){
 
     if($id){
         if($fname!='' && $lname!='' && $roll!=''){
-            updateStudent($id, $fname, $lname, $roll);
-            header('location: /index.php?task=report');
+            $result = updateStudent($id, $fname, $lname, $roll);
+            if($result){
+                header('location: /index.php?task=report');
+            }else{
+                $error = 1;
+            }
+
         }
     }else{
         if($fname!='' && $lname!='' && $roll!=''){
@@ -109,7 +114,7 @@ if(isset($_POST['submit'])){
         ?>
             <div class="row  justify-content-center">
                 <div class="col-lg-8">
-                    <form action="index.php?task=edit" method="POST">
+                    <form method="POST">
                         <input type="hidden" name="id" value="<?php echo $id; ?>">
                         <div class="mb-3">
                             <label class="form-label">First Name</label>
