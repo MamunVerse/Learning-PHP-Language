@@ -89,11 +89,41 @@ if(isset($_POST['submit'])){
                             <label class="form-label">Roll</label>
                             <input type="number" name="roll" class="form-control" value="<?php echo $roll; ?>">
                         </div>
-                        <button type="submit" class="btn btn-primary"  name="submit">Submit</button>
+                        <button type="submit" class="btn btn-primary"  name="submit">Save</button>
                     </form>
                 </div>
             </div>
         <?php endif; ?>
+        <?php
+            if($task == 'edit'):
+            $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING);
+            $student = getStudent($id);
+            if($student) :
+        ?>
+            <div class="row  justify-content-center">
+                <div class="col-lg-8">
+                    <form action="index.php?task=add" method="POST">
+                        <input type="hidden" name="id" value="<?php echo $id; ?>">
+                        <div class="mb-3">
+                            <label class="form-label">First Name</label>
+                            <input type="text" name="fname" class="form-control" value="<?php echo $student['fname']; ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" name="lname" class="form-control" value="<?php echo $student['lname']; ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Roll</label>
+                            <input type="number" name="roll" class="form-control" value="<?php echo $student['roll']; ?>">
+                        </div>
+                        <button type="submit" class="btn btn-primary"  name="submit">Update</button>
+                    </form>
+                </div>
+            </div>
+        <?php
+            endif;
+            endif;
+        ?>
     </div>
 
 
