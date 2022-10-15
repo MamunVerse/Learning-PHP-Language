@@ -64,24 +64,37 @@ function generateReport(){
         ?>
     </table>
     <?php
-
 }
 
 function addStudent($fname, $lname, $roll){
+    $found = false;
     $serializedData = file_get_contents(DB_NAME);
     $students = unserialize($serializedData);
 
-    $newId = count($students) + 1;
-    $student = [
+    foreach ($students as $_student) {
+        if($_student['roll'] = $roll){
+            $found = true;
+            break;
+        }
+    }
+
+    if(!$found){
+        $newId = count($students) + 1;
+        $student = [
             'id' => $newId,
             'fname' => $fname,
             'lname' => $lname,
             'roll' => $roll,
-    ];
+        ];
 
-    $students[] = $student;
+        $students[] = $student;
 
-    $serializeData = serialize($students);
-    file_put_contents(DB_NAME, $serializeData, LOCK_EX);
+        $serializeData = serialize($students);
+        file_put_contents(DB_NAME, $serializeData, LOCK_EX);
+        return true;
+    }else{
+        return false;
+    }
 
 }
+

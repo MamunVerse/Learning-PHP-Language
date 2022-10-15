@@ -4,19 +4,29 @@ require_once('inc/functions.php');
 $info = '';
 
 $task = $_GET['task'] ?? 'report';
+$error = $_GET['error'] ?? '0';
 if($task == 'seed'){
     seed();
     $info = "Seeding is Complete";
 
 }
+$fname = '';
+$lname = '';
+$roll = '';
+
 if(isset($_POST['submit'])){
     $fname = filter_input(INPUT_POST, 'fname', FILTER_SANITIZE_STRING);
     $lname = filter_input(INPUT_POST, 'lname', FILTER_SANITIZE_STRING);
     $roll =  filter_input(INPUT_POST, 'roll', FILTER_SANITIZE_STRING);
 
     if($fname!='' && $lname!='' && $roll!=''){
-        addStudent($fname, $lname, $roll);
-        header('location: /index.php?task=report');
+        $result = addStudent($fname, $lname, $roll);
+        if($result){
+            header('location: /index.php?task=report');
+        }else{
+            $error = 1;
+        }
+
     }
 }
 
@@ -46,6 +56,15 @@ if(isset($_POST['submit'])){
                 ?>
             </div>
         </div>
+        <?php if($error == '1'): ?>
+            <div class="row  justify-content-center">
+                <div class="col-lg-8">
+                    <blockquote>
+                        Duplicate Roll Number
+                    </blockquote>
+                </div>
+            </div>
+        <?php endif; ?>
         <?php if($task == 'report'): ?>
             <div class="row  justify-content-center">
                 <div class="col-lg-8">
@@ -56,18 +75,18 @@ if(isset($_POST['submit'])){
         <?php if($task == 'add'): ?>
             <div class="row  justify-content-center">
                 <div class="col-lg-8">
-                    <form action="index.php?report" method="POST">
+                    <form action="index.php?task=add" method="POST">
                         <div class="mb-3">
                             <label class="form-label">First Name</label>
-                            <input type="text" name="fname" class="form-control">
+                            <input type="text" name="fname" class="form-control" value="<?php $fname; ?>">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Last Name</label>
-                            <input type="text" name="lname" class="form-control">
+                            <input type="text" name="lname" class="form-control" value="<?php $lname; ?>">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Roll</label>
-                            <input type="number" name="roll" class="form-control">
+                            <input type="number" name="roll" class="form-control" value="<?php $roll; ?>">
                         </div>
                         <button type="submit" class="btn btn-primary"  name="submit">Submit</button>
                     </form>
