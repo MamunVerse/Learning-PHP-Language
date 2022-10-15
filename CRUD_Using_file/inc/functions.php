@@ -59,7 +59,7 @@ function generateReport(){
                     <tr>
                         <td><?php printf("%s %s", $student['fname'], $student['lname']) ?></td>
                         <td><?php printf("%d", $student['roll']) ?></td>
-                        <td><?php printf("<a href='/index.php?task=edit&id=%s'>Edit</a> | <a class='delete' href='/index.php?task=delete&id=%s'>Delete</a>", $student['id'], $student['id']) ?></td>
+                        <td><?php printf("<a class='btn btn-info btn-sm' href='/index.php?task=edit&id=%s'>Edit</a> <a class='btn btn-danger btn-sm href='/index.php?task=delete&id=%s'>Delete</a>", $student['id'], $student['id']) ?></td>
                     </tr>
                 <?php
             }
