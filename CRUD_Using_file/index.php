@@ -11,7 +11,18 @@ $info = '';
 $task = $_GET['task'] ?? 'report';
 $error = $_GET['error'] ?? '0';
 
+if($task == 'edit'){
+    if(!hasPrivilege()){
+        header('location: /index.php?task=report');
+        return;
+    }
+}
+
 if($task == 'delete'){
+    if(!isAdmin()){
+        header('location: /index.php?task=report');
+        return;
+    }
     $id =  filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING);
     if($id>0){
         deleteStudent($id);
@@ -19,16 +30,21 @@ if($task == 'delete'){
     }
 }
 if($task == 'seed'){
+    if(!isAdmin()){
+        header('location: /index.php?task=report');
+        return;
+    }
     seed();
     $info = "Seeding is Complete";
-
 }
+
 
 $fname = '';
 $lname = '';
 $roll  = '';
 
 if(isset($_POST['submit'])){
+
     $fname = filter_input(INPUT_POST, 'fname', FILTER_SANITIZE_STRING);
     $lname = filter_input(INPUT_POST, 'lname', FILTER_SANITIZE_STRING);
     $roll =  filter_input(INPUT_POST, 'roll', FILTER_SANITIZE_STRING);

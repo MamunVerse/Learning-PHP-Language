@@ -2,9 +2,15 @@
 <div class="row mt-4">
     <div class="col-12 d-flex justify-content-between">
         <div class="left">
-            <a class="btn btn-success btn-sm" href="/index.php?task=report">All Student</a> |
-            <a class="btn btn-success btn-sm" href="/index.php?task=add">Add New Student</a> |
+            <a class="btn btn-success btn-sm" href="/index.php?task=report">All Student</a>
+            <?php if(hasPrivilege()): ?>
+            |
+            <a class="btn btn-success btn-sm" href="/index.php?task=add">Add New Student</a>
+            <?php endif; ?>
+            <?php if(isAdmin()): ?>
+            |
             <a class="btn btn-success btn-sm" href="/index.php?task=seed">Seed</a>
+            <?php endif; ?>
         </div>
         <div class="right">
             <?php
@@ -18,7 +24,6 @@
             <?php
                 endif;
             ?>
-
         </div>
     </div>
 </div>
