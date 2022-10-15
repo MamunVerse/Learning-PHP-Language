@@ -1,3 +1,5 @@
+<!--php Version used 8.0-->
+
 <?php
 
 const DB_NAME = '/home/mamun/Desktop/php/lwh/CRUD_Using_file/data/db.txt';
@@ -110,3 +112,19 @@ function getStudent($id){
     return false;
 }
 
+function updateStudent($id, $fname, $lname, $roll){
+    $serializedData = file_get_contents(DB_NAME);
+    $students = unserialize($serializedData);
+
+//    foreach ($students as $student) {
+//        if($student['id'] == $id){
+//            return $student;
+//        }
+//    }
+    $students[$id-1]['fname'] = $fname;
+    $students[$id-1]['lname'] = $lname;
+    $students[$id-1]['roll'] = $roll;
+
+    $serializeData = serialize($students);
+    file_put_contents(DB_NAME, $serializeData, LOCK_EX);
+}

@@ -19,15 +19,22 @@ if(isset($_POST['submit'])){
     $fname = filter_input(INPUT_POST, 'fname', FILTER_SANITIZE_STRING);
     $lname = filter_input(INPUT_POST, 'lname', FILTER_SANITIZE_STRING);
     $roll =  filter_input(INPUT_POST, 'roll', FILTER_SANITIZE_STRING);
+    $id =  filter_input(INPUT_POST, 'id', FILTER_SANITIZE_STRING);
 
-    if($fname!='' && $lname!='' && $roll!=''){
-        $result = addStudent($fname, $lname, $roll);
-        if($result){
+    if($id){
+        if($fname!='' && $lname!='' && $roll!=''){
+            updateStudent($id, $fname, $lname, $roll);
             header('location: /index.php?task=report');
-        }else{
-            $error = 1;
         }
-
+    }else{
+        if($fname!='' && $lname!='' && $roll!=''){
+            $result = addStudent($fname, $lname, $roll);
+            if($result){
+                header('location: /index.php?task=report');
+            }else{
+                $error = 1;
+            }
+        }
     }
 }
 
@@ -102,7 +109,7 @@ if(isset($_POST['submit'])){
         ?>
             <div class="row  justify-content-center">
                 <div class="col-lg-8">
-                    <form action="index.php?task=add" method="POST">
+                    <form action="index.php?task=edit" method="POST">
                         <input type="hidden" name="id" value="<?php echo $id; ?>">
                         <div class="mb-3">
                             <label class="form-label">First Name</label>
