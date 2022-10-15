@@ -66,3 +66,22 @@ function generateReport(){
     <?php
 
 }
+
+function addStudent($fname, $lname, $roll){
+    $serializedData = file_get_contents(DB_NAME);
+    $students = unserialize($serializedData);
+
+    $newId = count($students) + 1;
+    $student = [
+            'id' => $newId,
+            'fname' => $fname,
+            'lname' => $lname,
+            'roll' => $roll,
+    ];
+
+    $students[] = $student;
+
+    $serializeData = serialize($students);
+    file_put_contents(DB_NAME, $serializeData, LOCK_EX);
+
+}
