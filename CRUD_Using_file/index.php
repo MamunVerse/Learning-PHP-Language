@@ -10,9 +10,10 @@ if($task == 'seed'){
     $info = "Seeding is Complete";
 
 }
+
 $fname = '';
 $lname = '';
-$roll = '';
+$roll  = '';
 
 if(isset($_POST['submit'])){
     $fname = filter_input(INPUT_POST, 'fname', FILTER_SANITIZE_STRING);
@@ -78,15 +79,15 @@ if(isset($_POST['submit'])){
                     <form action="index.php?task=add" method="POST">
                         <div class="mb-3">
                             <label class="form-label">First Name</label>
-                            <input type="text" name="fname" class="form-control" value="<?php $fname; ?>">
+                            <input type="text" name="fname" class="form-control" value="<?php echo $fname; ?>">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Last Name</label>
-                            <input type="text" name="lname" class="form-control" value="<?php $lname; ?>">
+                            <input type="text" name="lname" class="form-control" value="<?php echo $lname; ?>">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Roll</label>
-                            <input type="number" name="roll" class="form-control" value="<?php $roll; ?>">
+                            <input type="number" name="roll" class="form-control" value="<?php echo $roll; ?>">
                         </div>
                         <button type="submit" class="btn btn-primary"  name="submit">Submit</button>
                     </form>
