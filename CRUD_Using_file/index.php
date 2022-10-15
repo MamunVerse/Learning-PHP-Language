@@ -69,7 +69,7 @@ if(isset($_POST['submit'])){
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8 text-center">
-                <h2>Project 2 -CRUD</h2>
+                <h2>Project - CRUD </h2>
                 <p>A simple project to perform CRUD operations using plain files and PHP</p>
                 <?php include_once('inc/template/nav.php') ?>
                 <hr>
