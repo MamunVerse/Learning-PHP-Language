@@ -59,7 +59,7 @@ function generateReport(){
                     <tr>
                         <td><?php printf("%s %s", $student['fname'], $student['lname']) ?></td>
                         <td><?php printf("%d", $student['roll']) ?></td>
-                        <td><?php printf("<a href='/index.php?task=edit&id=%s'>Edit</a> | <a href='/index.php?task=delete&id=%s'>Delete</a>", $student['id'], $student['id']) ?></td>
+                        <td><?php printf("<a href='/index.php?task=edit&id=%s'>Edit</a> | <a class='delete' href='/index.php?task=delete&id=%s'>Delete</a>", $student['id'], $student['id']) ?></td>
                     </tr>
                 <?php
             }
@@ -81,7 +81,7 @@ function addStudent($fname, $lname, $roll){
     }
 
     if(!$found){
-        $newId = count($students) + 1;
+        $newId = getNewId($students);
         $student = [
             'id' => $newId,
             'fname' => $fname,
@@ -137,4 +137,24 @@ function updateStudent($id, $fname, $lname, $roll)
     }
 
     return false;
+}
+
+function deleteStudent($id){
+    $serializedData = file_get_contents(DB_NAME);
+    $students = unserialize($serializedData);
+
+
+    foreach ($students as $key => $student) {
+        if($student['id'] == $id){
+            unset($students[$key]);
+        }
+    }
+
+    $serializeData = serialize($students);
+    file_put_contents(DB_NAME, $serializeData, LOCK_EX);
+}
+
+function getNewId($students){
+    $maxId = max(array_column($students, 'id'));
+    return $maxId+1;
 }
