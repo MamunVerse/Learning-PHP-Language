@@ -1,8 +1,4 @@
-<?php
-session_start([
-'cookie_lifetime' => 300 // 5 Minute
-]);
-?>
+
 <div class="row mt-4">
     <div class="col-12 d-flex justify-content-between">
         <div class="left">
@@ -18,7 +14,7 @@ session_start([
             <?php
             else:
             ?>
-                <a class="btn btn-primary btn-sm" href="/auth.php?logout=true">Log Out</a>
+                <a class="btn btn-primary btn-sm" href="/auth.php?logout=true">Log Out (<?php echo $_SESSION['role'] ?>)</a>
             <?php
                 endif;
             ?>
