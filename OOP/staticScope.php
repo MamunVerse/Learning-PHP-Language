@@ -1,7 +1,7 @@
 <?php
 
 class AA{
-    
+
     protected static $name;
 
     static function sayHi(){
