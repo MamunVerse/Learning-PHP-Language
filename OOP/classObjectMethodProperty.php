@@ -26,8 +26,8 @@ class Dog{
     }
 }
 
-$h1 = new Human(); // This is objecrt
-$h1->name = "Rubel"; // this is property 
+$h1 = new Human(); // This is object
+$h1->name = "Rubel"; // this is property
 $h1->sayHi();
 
 
