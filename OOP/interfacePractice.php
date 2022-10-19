@@ -11,7 +11,7 @@ class DistractCollection implements  IteratorAggregate {
         array_push($this->distracts, $dristrict);
     }
 
-    function getSristricts(){
+    function getDristricts(){
         return $this->distracts;
     }
 
@@ -28,7 +28,7 @@ $dristricts->add("Bogura");
 $dristricts->add("Sylhet");
 $dristricts->add("Chittagong");
 
-//$_districts = $dristricts->getSristricts();
+//$_districts = $dristricts->getDristricts();
 
 foreach ($dristricts as $district){
     echo $district."\n";
