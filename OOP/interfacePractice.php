@@ -1,6 +1,6 @@
 <?php
 
-class DistractCollection implements  IteratorAggregate {
+class DistractCollection implements  IteratorAggregate, Countable {
     private $distracts;
     public function __construct()
     {
@@ -20,6 +20,11 @@ class DistractCollection implements  IteratorAggregate {
         return new ArrayIterator($this->distracts);
     }
 
+    function  count()
+    {
+        return count($this->distracts);
+    }
+
 }
 
 $dristricts = new DistractCollection();
@@ -33,5 +38,7 @@ $dristricts->add("Chittagong");
 foreach ($dristricts as $district){
     echo $district."\n";
 }
+
+echo count($dristricts);
 
 //print_r($dristricts);
