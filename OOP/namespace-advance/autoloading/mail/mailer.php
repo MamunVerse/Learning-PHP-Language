@@ -4,6 +4,6 @@ namespace CloudStorage\Mail;
 
 class Mailer{
     function sendMail(){
-        echo "Sending Mail";
+        echo "Sending Mail\n";
     }
 }
