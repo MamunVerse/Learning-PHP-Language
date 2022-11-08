@@ -38,44 +38,44 @@ if (!$connection) {
         <div class="col-lg-12">
 
             <?php
-            if (mysqli_num_rows($completeTasksResult) > 0) {
-                ?>
-                <h4>Complete Tasks</h4>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>ID</th>
-                        <th>Task</th>
-                        <th>Date</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    while ($completeData = mysqli_fetch_assoc($completeTasksResult)) {
-                        $ctimestamp = strtotime($completeData['date']);
-                        $cdate = date("jS M, Y", $ctimestamp);
-                        ?>
-                        <tr>
-                            <td>
-                                <input type="checkbox" value="<?php echo $completeData['id'] ?>">
-                            </td>
-                            <td><?php echo $completeData['id'] ?></td>
-                            <td><?php echo $completeData['task'] ?></td>
-                            <td><?php echo $cdate ?></td>
-                            <td>
-                                <a href="#">Delete</a> 
-                            </td>
-                        </tr>
-                        <?php
-                    }
-                    mysqli_close($connection);
+                if (mysqli_num_rows($completeTasksResult) > 0) {
                     ?>
-                    </tbody>
-                </table>
-                <?php
-            }
+                    <h4>Complete Tasks</h4>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>ID</th>
+                                <th>Task</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        while ($completeData = mysqli_fetch_assoc($completeTasksResult)) {
+                            $ctimestamp = strtotime($completeData['date']);
+                            $cdate = date("jS M, Y", $ctimestamp);
+                            ?>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" value="<?php echo $completeData['id'] ?>">
+                                </td>
+                                <td><?php echo $completeData['id'] ?></td>
+                                <td><?php echo $completeData['task'] ?></td>
+                                <td><?php echo $cdate ?></td>
+                                <td>
+                                    <a href="#">Delete</a>
+                                </td>
+                            </tr>
+                            <?php
+                        }
+                        mysqli_close($connection);
+                        ?>
+                        </tbody>
+                    </table>
+                    <?php
+                }
             ?>
             <?php
             if (mysqli_num_rows($result) == 0) {
@@ -110,12 +110,11 @@ if (!$connection) {
                             <td><?php echo $date ?></td>
                             <td>
                                 <a href="#">Delete</a> |
-                                <a href="#">Complete</a>
+                                <a href="#" class="complete" data-task-id="<?php echo $data['id'] ?>">Complete</a>
                             </td>
                         </tr>
                         <?php
                     }
-                    mysqli_close($connection);
                     ?>
                     </tbody>
                 </table>
@@ -167,9 +166,26 @@ if (!$connection) {
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-        crossorigin="anonymous"></script>
-<script src="assets/js/main.js"></script>
+<form action="task.php" method="post" id="completeForm">
+    <input type="hidden" id="caction" name="action" value="complete">
+    <input type="hidden" id="taskId" name="taskId">
+</form>
+
+
+<script src="assets/js/jquery.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+       // alert("Done");
+        $('.complete').on('click', function (e){
+            e.preventDefault();
+
+            var id = $(this).data('task-id');
+            $('#taskId').val(id);
+            $('#completeForm').submit();
+        })
+
+    });
+</script>
 </body>
 </html>
