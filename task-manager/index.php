@@ -5,8 +5,11 @@ $connection = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 if (!$connection) {
     throw new Exception("Cannot connect to database");
 } else {
-    $query = "SELECT * FROM " . DB_TABLE." ORDER BY date";
+    $query = "SELECT * FROM " . DB_TABLE . " WHERE complete=0 ORDER BY date";
     $result = mysqli_query($connection, $query);
+
+    $completeTasksQuery = "SELECT * FROM " . DB_TABLE . " WHERE complete=1 ORDER BY date";
+    $completeTasksResult = mysqli_query($connection, $completeTasksQuery);
 }
 
 
@@ -33,14 +36,11 @@ if (!$connection) {
 
     <div class="row  justify-content-center mt-4">
         <div class="col-lg-12">
-            <h4>All Tasks</h4>
+
             <?php
-            if (mysqli_num_rows($result) == 0) {
+            if (mysqli_num_rows($completeTasksResult) > 0) {
                 ?>
-                <p>No Data Found</p>
-                <?php
-            } else {
-                ?>
+                <h4>Complete Tasks</h4>
                 <table class="table">
                     <thead>
                     <tr>
@@ -53,26 +53,69 @@ if (!$connection) {
                     </thead>
                     <tbody>
                     <?php
-                        while ($data = mysqli_fetch_assoc($result)){
-                            $timestamp = strtotime($data['date']);
-                            $date = date("jS M, Y", $timestamp);
-                            ?>
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" value="<?php echo $data['id'] ?>">
-                                    </td>
-                                    <td><?php echo $data['id'] ?></td>
-                                    <td><?php echo $data['task'] ?></td>
-                                    <td><?php echo $date ?></td>
-                                    <td>
-                                        <a href="#">Delete</a> |
-                                        <a href="#">Edit</a> |
-                                        <a href="#">Complete</a>
-                                    </td>
-                                </tr>
-                            <?php
-                        }
-                        mysqli_close($connection);
+                    while ($completeData = mysqli_fetch_assoc($completeTasksResult)) {
+                        $ctimestamp = strtotime($completeData['date']);
+                        $cdate = date("jS M, Y", $ctimestamp);
+                        ?>
+                        <tr>
+                            <td>
+                                <input type="checkbox" value="<?php echo $completeData['id'] ?>">
+                            </td>
+                            <td><?php echo $completeData['id'] ?></td>
+                            <td><?php echo $completeData['task'] ?></td>
+                            <td><?php echo $cdate ?></td>
+                            <td>
+                                <a href="#">Delete</a> 
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    mysqli_close($connection);
+                    ?>
+                    </tbody>
+                </table>
+                <?php
+            }
+            ?>
+            <?php
+            if (mysqli_num_rows($result) == 0) {
+                ?>
+                <p>No Data Found</p>
+                <?php
+            } else {
+                ?>
+                <h4>Upcomming Tasks</h4>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>ID</th>
+                        <th>Task</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    while ($data = mysqli_fetch_assoc($result)) {
+                        $timestamp = strtotime($data['date']);
+                        $date = date("jS M, Y", $timestamp);
+                        ?>
+                        <tr>
+                            <td>
+                                <input type="checkbox" value="<?php echo $data['id'] ?>">
+                            </td>
+                            <td><?php echo $data['id'] ?></td>
+                            <td><?php echo $data['task'] ?></td>
+                            <td><?php echo $date ?></td>
+                            <td>
+                                <a href="#">Delete</a> |
+                                <a href="#">Complete</a>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    mysqli_close($connection);
                     ?>
                     </tbody>
                 </table>
