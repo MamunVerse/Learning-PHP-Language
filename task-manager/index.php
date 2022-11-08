@@ -1,3 +1,16 @@
+<?php
+include_once "config.php";
+$connection = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+if (!$connection) {
+    throw new Exception("Cannot connect to database");
+} else {
+    $query = "SELECT * FROM " . DB_TABLE." ORDER BY date";
+    $result = mysqli_query($connection, $query);
+}
+
+
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -21,28 +34,52 @@
     <div class="row  justify-content-center mt-4">
         <div class="col-lg-12">
             <h4>All Tasks</h4>
-            <table class="table">
-                <thead>
+            <?php
+            if (mysqli_num_rows($result) == 0) {
+                ?>
+                <p>No Data Found</p>
+                <?php
+            } else {
+                ?>
+                <table class="table">
+                    <thead>
                     <tr>
+                        <th>#</th>
                         <th>ID</th>
                         <th>Task</th>
                         <th>Date</th>
                         <th>Action</th>
                     </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Task One</td>
-                    <td>1 january</td>
-                    <td>
-                        <a href="#">Delete</a> |
-                        <a href="#">Edit</a> |
-                        <a href="#">Complete</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    <?php
+                        while ($data = mysqli_fetch_assoc($result)){
+                            $timestamp = strtotime($data['date']);
+                            $date = date("jS M, Y", $timestamp);
+                            ?>
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" value="<?php echo $data['id'] ?>">
+                                    </td>
+                                    <td><?php echo $data['id'] ?></td>
+                                    <td><?php echo $data['task'] ?></td>
+                                    <td><?php echo $date ?></td>
+                                    <td>
+                                        <a href="#">Delete</a> |
+                                        <a href="#">Edit</a> |
+                                        <a href="#">Complete</a>
+                                    </td>
+                                </tr>
+                            <?php
+                        }
+                        mysqli_close($connection);
+                    ?>
+                    </tbody>
+                </table>
+                <?php
+            }
+            ?>
+
             <form action="">
                 <div class="d-flex">
                     <select name="" id="" class="form-control d-inline-block" style="width : 150px;">
@@ -67,11 +104,10 @@
                     <?php
                     $added = $_GET['added'] ?? '';
 
-                    if($added){
+                    if ($added) {
                         echo "Task added successfully";
                     }
-
-                ?>
+                    ?>
                 </p>
                 <input type="hidden" name="action" value="add">
                 <div class="mb-3">
