@@ -22,6 +22,14 @@ if(!$connection){
                 header("Location:index.php?added=true");
                 exit;
             }
+        }elseif ('complete' == $action){
+            $taskId = $_POST['taskId'];
+            if($taskId){
+                $query = "UPDATE ".DB_TABLE." SET complete=1 WHERE id=".$taskId." LIMIT 1";
+                mysqli_query($connection, $query);
+                header("Location:index.php");
+                exit;
+            }
         }
     }
 }
