@@ -51,6 +51,15 @@ if(!$connection){
             }
             header("Location:index.php");
             exit;
+        }elseif ('bulkcomplete' == $action){
+            $taskids = $_POST['taskids'];
+            $_taskids = join(',',$taskids);
+             if($taskids){
+                $query = "UPDATE ".DB_TABLE." SET complete=1 WHERE id in (".$_taskids.")";
+                mysqli_query($connection, $query);
+            }
+            header("Location:index.php");
+            exit;
         }
     }
 }

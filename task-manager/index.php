@@ -86,53 +86,53 @@ if (!$connection) {
             } else {
                 ?>
                 <h4>Upcomming Tasks</h4>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>ID</th>
-                        <th>Task</th>
-                        <th>Date</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    while ($data = mysqli_fetch_assoc($result)) {
-                        $timestamp = strtotime($data['date']);
-                        $date = date("jS M, Y", $timestamp);
-                        ?>
+                <form action="task.php" method="post">
+                    <table class="table">
+                        <thead>
                         <tr>
-                            <td>
-                                <input type="checkbox" value="<?php echo $data['id'] ?>">
-                            </td>
-                            <td><?php echo $data['id'] ?></td>
-                            <td><?php echo $data['task'] ?></td>
-                            <td><?php echo $date ?></td>
-                            <td>
-                                <a href="#" class="delete" data-task-id="<?php echo $data['id'] ?>">Delete</a>  |
-                                <a href="#" class="complete" data-task-id="<?php echo $data['id'] ?>">Complete</a>
-                            </td>
+                            <th>#</th>
+                            <th>ID</th>
+                            <th>Task</th>
+                            <th>Date</th>
+                            <th>Action</th>
                         </tr>
+                        </thead>
+                        <tbody>
                         <?php
-                    }
-                    ?>
-                    </tbody>
-                </table>
+                        while ($data = mysqli_fetch_assoc($result)) {
+                            $timestamp = strtotime($data['date']);
+                            $date = date("jS M, Y", $timestamp);
+                            ?>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="taskids[]" value="<?php echo $data['id'] ?>">
+                                </td>
+                                <td><?php echo $data['id'] ?></td>
+                                <td><?php echo $data['task'] ?></td>
+                                <td><?php echo $date ?></td>
+                                <td>
+                                    <a href="#" class="delete" data-task-id="<?php echo $data['id'] ?>">Delete</a>  |
+                                    <a href="#" class="complete" data-task-id="<?php echo $data['id'] ?>">Complete</a>
+                                </td>
+                            </tr>
+                            <?php
+                        }
+                        ?>
+                        </tbody>
+                    </table>
+                    <div class="d-flex">
+                        <select name="action" id="action" class="form-control d-inline-block" style="width : 150px;">
+                            <option value="0">With Selected</option>
+                            <option value="bulkdelete">Delete</option>
+                            <option value="bulkcomplete">Mark As Complete</option>
+                        </select>
+                        <button type="submit" class="ms-4 btn btn-primary" name="submit">Submit</button>
+                    </div>
+                </form>
                 <?php
             }
             ?>
 
-            <form action="">
-                <div class="d-flex">
-                    <select name="" id="" class="form-control d-inline-block" style="width : 150px;">
-                        <option value="">Option 1</option>
-                        <option value="">Option 2</option>
-                        <option value="">Option 3</option>
-                    </select>
-                    <button type="submit" class="ms-4 btn btn-primary" name="submit">Submit</button>
-                </div>
-            </form>
         </div>
     </div>
     <br>
