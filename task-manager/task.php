@@ -16,8 +16,10 @@ if(!$connection){
             $task = $_POST['task'];
             $date = $_POST['date'];
 
+
             if($task && $date){
                 $query = "INSERT INTO ".DB_TABLE." (task, date) VALUES ('{$task}', '{$date}')";
+
                 mysqli_query($connection, $query);
                 header("Location:index.php?added=true");
                 exit;
@@ -30,6 +32,25 @@ if(!$connection){
                 header("Location:index.php");
                 exit;
             }
+        }elseif ('delete' == $action){
+            $taskId = $_POST['taskId'];
+
+            if($taskId){
+
+                $query = "DELETE FROM ".DB_TABLE." WHERE id=".$taskId." LIMIT 1";
+                mysqli_query($connection, $query);
+            }
+            header("Location:index.php");
+            exit;
+        }elseif ('incomplete' == $action){
+            $taskId = $_POST['taskId'];
+
+            if($taskId){
+                $query = "UPDATE ".DB_TABLE." SET complete=0 WHERE id=".$taskId." LIMIT 1";
+                mysqli_query($connection, $query);
+            }
+            header("Location:index.php");
+            exit;
         }
     }
 }

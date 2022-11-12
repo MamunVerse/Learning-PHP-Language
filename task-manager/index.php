@@ -65,7 +65,8 @@ if (!$connection) {
                                 <td><?php echo $completeData['task'] ?></td>
                                 <td><?php echo $cdate ?></td>
                                 <td>
-                                    <a href="#">Delete</a>
+                                    <a href="#" class="delete" data-task-id="<?php echo $completeData['id'] ?>">Delete</a> |
+                                    <a href="#" class="incomplete" data-task-id="<?php echo $completeData['id'] ?>">Incomplete</a>
                                 </td>
                             </tr>
                             <?php
@@ -109,7 +110,7 @@ if (!$connection) {
                             <td><?php echo $data['task'] ?></td>
                             <td><?php echo $date ?></td>
                             <td>
-                                <a href="#">Delete</a> |
+                                <a href="#" class="delete" data-task-id="<?php echo $data['id'] ?>">Delete</a>  |
                                 <a href="#" class="complete" data-task-id="<?php echo $data['id'] ?>">Complete</a>
                             </td>
                         </tr>
@@ -167,10 +168,19 @@ if (!$connection) {
 </div>
 
 <form action="task.php" method="post" id="completeForm">
-    <input type="hidden" id="caction" name="action" value="complete">
+    <input type="hidden"  name="action" value="complete">
     <input type="hidden" id="taskId" name="taskId">
 </form>
 
+<form action="task.php" method="post" id="deleteForm">
+    <input type="hidden"  name="action" value="delete">
+    <input type="hidden" id="dtaskId" name="taskId">
+</form>
+
+<form action="task.php" method="post" id="inCompleteForm">
+    <input type="hidden" name="action" value="incomplete">
+    <input type="hidden" id="itaskId" name="taskId">
+</form>
 
 <script src="assets/js/jquery.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -180,10 +190,27 @@ if (!$connection) {
         $('.complete').on('click', function (e){
             e.preventDefault();
 
-            var id = $(this).data('task-id');
+            let id = $(this).data('task-id');
             $('#taskId').val(id);
             $('#completeForm').submit();
-        })
+        });
+
+        $('.delete').on('click', function (e){
+            e.preventDefault();
+
+            let id = $(this).data('task-id');
+
+            $('#dtaskId').val(id);
+            $('#deleteForm').submit();
+        });
+
+        $('.incomplete').on('click', function (e){
+            e.preventDefault();
+
+            let id = $(this).data('task-id');
+            $('#itaskId').val(id);
+            $('#inCompleteForm').submit();
+        });
 
     });
 </script>
