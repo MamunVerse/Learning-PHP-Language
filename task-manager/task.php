@@ -60,6 +60,15 @@ if(!$connection){
             }
             header("Location:index.php");
             exit;
+        }elseif ('bulkdelete' == $action){
+            $taskids = $_POST['taskids'];
+            $_taskids = join(',',$taskids);
+             if($taskids){
+                $query = "DELETE FROM ".DB_TABLE." WHERE id in (".$_taskids.")";
+                mysqli_query($connection, $query);
+            }
+            header("Location:index.php");
+            exit;
         }
     }
 }
